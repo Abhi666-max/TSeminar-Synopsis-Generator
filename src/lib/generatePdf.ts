@@ -43,10 +43,10 @@ export async function generateFinalPdf(student: StudentDetails, paper: PaperData
   page1.drawRectangle({ x: 0, y: 0, width: width, height: height - 190, color: rgb(1, 1, 1) });
   page2.drawRectangle({ x: 0, y: 0, width: width, height: height - 125, color: rgb(1, 1, 1) });
 
-  const fontSize = 10.5;
-  const headingSize = 11.5;
-  const lineSpacing = 16;
-  const sectionSpacing = 12;
+  const fontSize = 11;
+  const headingSize = 12;
+  const lineSpacing = 18;
+  const sectionSpacing = 16;
   const bottomMargin = 60;
   const page2StartY = height - 145;
 
