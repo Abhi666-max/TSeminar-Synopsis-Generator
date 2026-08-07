@@ -7,11 +7,11 @@ import { ChevronDown } from 'lucide-react';
 const faqs = [
   {
     question: "What does this platform do?",
-    answer: "TSeminar AI automates the generation of technical seminar synopses. It extracts context from research papers or creates entirely new theoretical synopses based on a given title, and automatically formats them into pixel-perfect, print-ready PDF reports."
+    answer: "KSE Synopsis automates the generation of various academic formats, including technical seminars, robotics projects, and future project reports. It extracts context from research papers or creates entirely new theoretical content, automatically formatting them into pixel-perfect, print-ready PDF reports."
   },
   {
     question: "How does AI generate seminar content?",
-    answer: "When provided with a title, our platform leverages Groq's high-speed inference engine to synthesize a highly realistic and technical synopsis. It invents credible authors, a recent publication year, and perfectly structures the Introduction, Methodology, and Objectives to simulate a genuine, high-quality research paper."
+    answer: "When provided with a title, our platform leverages Groq's high-speed inference engine to synthesize a highly realistic and technical synopsis. It perfectly structures the content according to your selected format's precise requirements."
   },
   {
     question: "Which file formats are supported?",
@@ -43,7 +43,7 @@ const faqs = [
   },
   {
     question: "How do I download the final report?",
-    answer: "Once the AI finishes rendering the document, the PDF is automatically downloaded to your device with a strict, organized naming convention (e.g., RollNo_Title.pdf)."
+    answer: "Once the AI finishes rendering the document, the PDF is automatically downloaded to your device with a strict, organized naming convention according to your selected format's standard."
   }
 ];
 

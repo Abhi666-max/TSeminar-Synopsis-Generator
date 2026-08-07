@@ -77,13 +77,10 @@ export default function GeneratorCard() {
   };
 
   return (
-    <section id="generator" className="py-24 relative z-10 px-6">
+    <div className="relative w-full">
       <div className="max-w-5xl mx-auto">
         
-        <div className="text-center mb-16">
-          <h2 className="heading-2 mb-4">Start your Engine.</h2>
-          <p className="subtitle">Input your details and let the AI do the heavy lifting.</p>
-        </div>
+
 
         <motion.div 
           initial={{ opacity: 0, y: 50 }}
@@ -198,9 +195,19 @@ export default function GeneratorCard() {
                         <span className="font-semibold text-white">Upload PDF</span> (Optional)
                       </p>
                       {file && (
-                        <p className="mt-2 text-xs font-semibold text-green-400 flex items-center gap-1.5 bg-green-400/10 px-3 py-1.5 rounded-full border border-green-500/20">
-                          <CheckCircle2 className="w-3.5 h-3.5" /> {file.name}
-                        </p>
+                        <div className="mt-2 flex items-center gap-2">
+                          <p className="text-xs font-semibold text-green-400 flex items-center gap-1.5 bg-green-400/10 px-3 py-1.5 rounded-full border border-green-500/20">
+                            <CheckCircle2 className="w-3.5 h-3.5" /> {file.name}
+                          </p>
+                          <button 
+                            type="button" 
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setFile(null); }} 
+                            className="p-1 rounded-full bg-black/40 hover:bg-red-500/20 text-gray-400 hover:text-red-400 border border-white/10 hover:border-red-500/30 transition-all z-10 relative"
+                            title="Remove PDF"
+                          >
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
+                          </button>
+                        </div>
                       )}
                     </div>
                     <input 
@@ -305,7 +312,7 @@ export default function GeneratorCard() {
                        <div>
                          <h4 className="text-white font-medium mb-1 text-sm tracking-wide">Open Source</h4>
                          <p className="text-[13px] text-[#666666] mb-3 leading-relaxed">Star our GitHub repository to support ongoing development.</p>
-                         <a href="https://github.com/Abhi666-max/TSeminar-Synopsis-Generator" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-white text-black px-4 py-2 rounded-md font-semibold text-xs hover:bg-gray-200 transition-colors">
+                         <a href="https://github.com/Abhi666-max/kse-synopsis-generator" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-white text-black px-4 py-2 rounded-md font-semibold text-xs hover:bg-gray-200 transition-colors">
                            Star on GitHub
                          </a>
                        </div>
@@ -326,6 +333,6 @@ export default function GeneratorCard() {
           </div>
         )}
       </AnimatePresence>
-    </section>
+    </div>
   );
 }

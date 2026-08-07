@@ -13,7 +13,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "TSeminar AI",
+  title: "KSE Synopsis",
   description: "Automate your technical seminar submission with our AI in seconds.",
   icons: {
     icon: '/icon.png',
@@ -34,7 +34,7 @@ export default function RootLayout({
         <CustomCursor />
         <Background />
         <Navbar />
-        <main className="pt-20">
+        <main className="relative z-10 flex-1">
           {children}
         </main>
         <Footer />

@@ -1,4 +1,4 @@
-import { Document, Paragraph, TextRun, AlignmentType, Table, TableRow, TableCell, BorderStyle, WidthType, HeadingLevel } from "docx";
+import { Document, Paragraph, TextRun, AlignmentType, Table, TableRow, TableCell, WidthType, HeadingLevel } from "docx";
 import { paperData } from "./paperData";
 
 export interface StudentInfo {

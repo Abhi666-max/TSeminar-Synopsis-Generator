@@ -6,18 +6,18 @@ import { Upload, BrainCircuit, FileDown } from 'lucide-react';
 const steps = [
   {
     icon: <Upload className="w-6 h-6 text-blue-400" />,
-    title: "Upload or Type",
-    description: "Provide an IEEE base paper or simply type a title. The system adapts instantly."
+    title: "Select & Input",
+    description: "Choose your required format (Seminar, Robotics, etc.), then provide a base paper or just a project title."
   },
   {
     icon: <BrainCircuit className="w-6 h-6 text-purple-400" />,
-    title: "AI Analysis",
-    description: "Our custom intelligence layer, accelerated by Groq's lightning-fast LPU inference engine, processes the input..."
+    title: "Contextual Analysis",
+    description: "Our custom intelligence layer, accelerated by Groq, instantly synthesizes and structures the exact content needed for your specific format."
   },
   {
     icon: <FileDown className="w-6 h-6 text-green-400" />,
-    title: "Download PDF",
-    description: "Your perfectly formatted 2-page synopsis is rendered and downloaded locally."
+    title: "Print-Ready Export",
+    description: "Your perfectly formatted synopsis is rendered directly onto the official university template and downloaded locally."
   }
 ];
 

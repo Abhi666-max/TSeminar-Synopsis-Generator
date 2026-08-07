@@ -2,9 +2,14 @@
 
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import GlobalGeneratorModal from './GlobalGeneratorModal';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,20 +30,20 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* PHASE 2: PREMIUM BRANDING */}
-        <div className="flex items-center gap-3 cursor-pointer group">
+        <div className="flex items-center gap-3 cursor-pointer group" onClick={() => router.push('/')}>
           <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(121,40,202,0.3)] group-hover:shadow-[0_0_30px_rgba(0,112,243,0.6)] transition-all duration-500 border border-glass-border">
-            <img src="/logo.png" alt="TSeminar AI Logo" className="w-full h-full object-cover" />
+            <Image src="/logo.png" alt="KSE Synopsis Logo" width={40} height={40} className="w-full h-full object-cover" />
           </div>
-          <span className="font-bold text-2xl tracking-tight text-white transition-all duration-300">
-            TSeminar<span className="font-medium text-gradient-primary ml-0.5">AI</span>
-          </span>
+          <div className="font-bold text-xl tracking-widest flex items-center bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
+            KSE SYNOPSIS
+          </div>
         </div>
 
         <nav className="hidden md:flex items-center gap-8">
           {['Features', 'How it Works', 'FAQ'].map((item) => (
             <a 
               key={item} 
-              href={`#${item.toLowerCase().replace(/ /g, '-')}`} 
+              href={`/#${item.toLowerCase().replace(/ /g, '-')}`} 
               className="text-sm font-semibold text-gray-400 hover:text-white transition-colors relative group tracking-wide"
             >
               {item}
@@ -52,9 +57,7 @@ export default function Navbar() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="relative group isolate rounded-full transition-all duration-500"
-          onClick={() => {
-            document.getElementById('generator')?.scrollIntoView({ behavior: 'smooth' });
-          }}
+          onClick={() => setIsModalOpen(true)}
         >
           {/* Subtle Animated Border Sweep Effect */}
           <div className="absolute inset-0 rounded-full border border-white/10 pointer-events-none" />
@@ -68,6 +71,7 @@ export default function Navbar() {
           </div>
         </motion.button>
       </div>
+      <GlobalGeneratorModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </motion.header>
   );
 }

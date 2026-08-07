@@ -11,13 +11,13 @@ const features = [
   },
   {
     icon: <Zap className="w-6 h-6 text-purple-400" />,
-    title: "Instant Hallucination",
-    description: "No paper? No problem. Give us a title and we invent highly technical, realistic 5-year recent research."
+    title: "Intelligent Synthesis",
+    description: "No base paper? No problem. Give us a title and we synthesize highly technical, context-aware content instantly."
   },
   {
     icon: <LayoutTemplate className="w-6 h-6 text-pink-400" />,
-    title: "Pixel-Perfect Layout",
-    description: "Overlays data directly onto official university PDF templates. Perfect margins, fonts, and spacing."
+    title: "Universal Layout Engine",
+    description: "Overlays data directly onto any official university PDF template. Perfect margins, fonts, and spacing for all formats."
   },
   {
     icon: <ShieldCheck className="w-6 h-6 text-green-400" />,
@@ -37,7 +37,7 @@ export default function Features() {
             viewport={{ once: true }}
             className="heading-2 mb-4"
           >
-            Engineering Excellence.
+            Universal Academic Excellence.
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}

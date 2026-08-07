@@ -1,8 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+import GlobalGeneratorModal from './GlobalGeneratorModal';
 
 export default function Hero() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <section className="relative min-h-[90vh] flex items-center pt-32 pb-16 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
@@ -25,14 +29,14 @@ export default function Hero() {
           </h1>
           
           <p className="subtitle max-w-xl mx-auto lg:mx-0">
-            Stop wasting hours formatting margins and typography. TSeminar AI extracts, structures, and renders print-ready technical seminar PDFs instantly.
+            Stop wasting hours formatting margins and typography. KSE Synopsis extracts, structures, and renders print-ready academic synopses and project reports for any format instantly.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 pt-6">
             <motion.button 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => document.getElementById('generator')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => setIsModalOpen(true)}
               className="relative group isolate rounded-full shadow-[0_0_20px_rgba(0,112,243,0.2)] hover:shadow-[0_0_40px_rgba(121,40,202,0.5)] transition-all duration-500 w-full sm:w-auto"
             >
               {/* Animated Border Sweep Effect */}
@@ -142,6 +146,8 @@ export default function Hero() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-secondary/20 rounded-full blur-[80px] translate-x-10 translate-y-10"></div>
         </motion.div>
       </div>
+
+      <GlobalGeneratorModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 }

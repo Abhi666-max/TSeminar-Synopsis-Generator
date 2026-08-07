@@ -62,24 +62,74 @@ export async function generateFinalPdf(student: StudentDetails, paper: PaperData
     }
   }
 
-  function printWrappedText(text: string, x: number, fontToUse: PDFFont, sizeToUse: number, maxWidth: number, color = rgb(0,0,0), endSpacing = sectionSpacing) {
-    const words = text.split(' ');
-    let line = '';
-    for (let n = 0; n < words.length; n++) {
-      const testLine = line + words[n] + ' ';
-      const testWidth = fontToUse.widthOfTextAtSize(testLine, sizeToUse);
-      if (testWidth > maxWidth && n > 0) {
+  function printJustifiedText(text: string, x: number, fontToUse: PDFFont, sizeToUse: number, maxWidth: number, color = rgb(0,0,0), endSpacing = sectionSpacing, justify = true) {
+    const paragraphs = text.split('\\n').filter(p => p.trim() !== '');
+    
+    for (let p = 0; p < paragraphs.length; p++) {
+      const paragraph = paragraphs[p];
+      const words = paragraph.split(' ').filter(w => w !== '');
+      let line: string[] = [];
+      let lineLength = 0;
+
+      for (let n = 0; n < words.length; n++) {
+        const word = words[n];
+        const wordWidth = fontToUse.widthOfTextAtSize(word, sizeToUse);
+        const spaceWidth = fontToUse.widthOfTextAtSize(' ', sizeToUse);
+
+        // If a single word is longer than maxWidth (e.g. very long URL), we still have to draw it,
+        // but it will overflow. It's a rare edge case.
+        const testLineLength = lineLength + (line.length > 0 ? spaceWidth : 0) + wordWidth;
+
+        if (testLineLength > maxWidth && line.length > 0) {
+          checkPageBreak(lineSpacing);
+          
+          if (justify) {
+            // Draw justified line
+            const totalWordsWidth = line.reduce((acc, w) => acc + fontToUse.widthOfTextAtSize(w, sizeToUse), 0);
+            const remainingSpace = maxWidth - totalWordsWidth;
+            const spaceBetweenWords = line.length > 1 ? remainingSpace / (line.length - 1) : 0;
+
+            let currentX = x;
+            for (const w of line) {
+              currentPage.drawText(w, { x: currentX, y: cursorY, size: sizeToUse, font: fontToUse, color });
+              currentX += fontToUse.widthOfTextAtSize(w, sizeToUse) + spaceBetweenWords;
+            }
+          } else {
+            // Draw left-aligned line
+            let currentX = x;
+            for (const w of line) {
+              currentPage.drawText(w, { x: currentX, y: cursorY, size: sizeToUse, font: fontToUse, color });
+              currentX += fontToUse.widthOfTextAtSize(w, sizeToUse) + spaceWidth;
+            }
+          }
+
+          line = [word];
+          lineLength = wordWidth;
+          cursorY -= lineSpacing;
+        } else {
+          line.push(word);
+          lineLength = testLineLength;
+        }
+      }
+
+      // Draw the last line of the paragraph left-aligned
+      if (line.length > 0) {
         checkPageBreak(lineSpacing);
-        currentPage.drawText(line, { x, y: cursorY, size: sizeToUse, font: fontToUse, color });
-        line = words[n] + ' ';
-        cursorY -= lineSpacing;
-      } else {
-        line = testLine;
+        let currentX = x;
+        const spaceWidth = fontToUse.widthOfTextAtSize(' ', sizeToUse);
+        for (const w of line) {
+          currentPage.drawText(w, { x: currentX, y: cursorY, size: sizeToUse, font: fontToUse, color });
+          currentX += fontToUse.widthOfTextAtSize(w, sizeToUse) + spaceWidth;
+        }
+        
+        // Only add endSpacing after the last paragraph, or between paragraphs
+        if (p === paragraphs.length - 1) {
+          cursorY -= endSpacing;
+        } else {
+          cursorY -= lineSpacing;
+        }
       }
     }
-    checkPageBreak(lineSpacing);
-    currentPage.drawText(line, { x, y: cursorY, size: sizeToUse, font: fontToUse, color });
-    cursorY -= endSpacing;
   }
 
   function printHeading(text: string) {
@@ -92,16 +142,17 @@ export async function generateFinalPdf(student: StudentDetails, paper: PaperData
   printHeading('1. Seminar Title');
   checkPageBreak(lineSpacing);
   currentPage.drawText('Title of Seminar:', { x: margin, y: cursorY, size: fontSize, font: boldFont });
-  printWrappedText(` ${paper.title}`, margin + 90, font, fontSize, width - margin - 140, rgb(0,0,0), sectionSpacing);
+  // Pass justify=false for the title to prevent weird spacing if title is 2 lines
+  printJustifiedText(` ${paper.title}`, margin + 90, font, fontSize, width - margin - 140, rgb(0,0,0), sectionSpacing, false);
 
   printHeading('2. Research Paper Details');
   checkPageBreak(lineSpacing);
   currentPage.drawText('• Authors:', { x: margin + 10, y: cursorY, size: fontSize, font: boldFont });
-  printWrappedText(` ${paper.authors}`, margin + 65, font, fontSize, width - margin - 115, rgb(0,0,0), lineSpacing);
+  printJustifiedText(` ${paper.authors}`, margin + 65, font, fontSize, width - margin - 115, rgb(0,0,0), lineSpacing, false);
   
   checkPageBreak(lineSpacing);
   currentPage.drawText('• Conference/Journal:', { x: margin + 10, y: cursorY, size: fontSize, font: boldFont });
-  printWrappedText(` ${paper.conference}`, margin + 125, font, fontSize, width - margin - 175, rgb(0,0,0), lineSpacing);
+  printJustifiedText(` ${paper.conference}`, margin + 125, font, fontSize, width - margin - 175, rgb(0,0,0), lineSpacing, false);
   
   checkPageBreak(lineSpacing);
   currentPage.drawText('• Year:', { x: margin + 10, y: cursorY, size: fontSize, font: boldFont });
@@ -114,37 +165,37 @@ export async function generateFinalPdf(student: StudentDetails, paper: PaperData
   cursorY -= sectionSpacing;
 
   printHeading('3. Introduction');
-  printWrappedText(paper.introduction, margin, font, fontSize, width - 2 * margin);
+  printJustifiedText(paper.introduction, margin, font, fontSize, width - 2 * margin);
 
   printHeading('4. Problem Statement');
-  printWrappedText(paper.problemStatement, margin, font, fontSize, width - 2 * margin);
+  printJustifiedText(paper.problemStatement, margin, font, fontSize, width - 2 * margin);
 
   printHeading('5. Objectives');
   for (const obj of paper.objectives) {
     checkPageBreak(lineSpacing);
     currentPage.drawText('•', { x: margin + 10, y: cursorY, size: fontSize, font });
-    printWrappedText(obj, margin + 20, font, fontSize, width - margin - 70);
+    printJustifiedText(obj, margin + 20, font, fontSize, width - margin - 70);
   }
 
   printHeading('6. Proposed Methodology');
-  printWrappedText(paper.methodology, margin, font, fontSize, width - 2 * margin);
+  printJustifiedText(paper.methodology, margin, font, fontSize, width - 2 * margin);
   
   printHeading('7. Technologies Used');
   for (const tech of paper.technologies) {
     checkPageBreak(lineSpacing);
     currentPage.drawText('•', { x: margin + 10, y: cursorY, size: fontSize, font });
-    printWrappedText(tech, margin + 20, font, fontSize, width - margin - 70);
+    printJustifiedText(tech, margin + 20, font, fontSize, width - margin - 70);
   }
 
   printHeading('8. Results');
-  printWrappedText(paper.results, margin, font, fontSize, width - 2 * margin);
+  printJustifiedText(paper.results, margin, font, fontSize, width - 2 * margin);
 
   printHeading('9. Conclusion');
-  printWrappedText(paper.conclusion, margin, font, fontSize, width - 2 * margin);
+  printJustifiedText(paper.conclusion, margin, font, fontSize, width - 2 * margin);
 
   printHeading('10. References');
   const refText = `${paper.authors} (${paper.year}). ${paper.title}. ${paper.conference}. DOI: ${paper.doi}`;
-  printWrappedText(refText, margin, font, fontSize, width - 2 * margin);
+  printJustifiedText(refText, margin, font, fontSize, width - 2 * margin, rgb(0,0,0), sectionSpacing, false);
 
   printHeading('11. Student Details');
   
