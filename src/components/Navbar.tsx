@@ -34,7 +34,7 @@ export default function Navbar() {
           <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(121,40,202,0.3)] group-hover:shadow-[0_0_30px_rgba(0,112,243,0.6)] transition-all duration-500 border border-glass-border">
             <Image src="/logo.png" alt="KSE Synopsis Logo" width={40} height={40} className="w-full h-full object-cover" />
           </div>
-          <div className="font-bold text-xl tracking-widest flex items-center bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
+          <div className="hidden sm:flex font-bold text-xl tracking-widest items-center bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
             KSE SYNOPSIS
           </div>
         </div>

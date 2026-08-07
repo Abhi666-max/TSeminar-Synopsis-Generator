@@ -92,8 +92,8 @@ export default function GeneratorCard() {
           {/* Animated border glow on the entire card */}
           <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-primary opacity-20 group-hover:opacity-100 animate-border-glow transition-opacity duration-700" />
           
-          <div className="relative glass-panel rounded-[31px] p-8 md:p-12 h-full w-full">
-            <form onSubmit={handleGenerate} className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div className="relative glass-panel rounded-[31px] p-6 md:p-12 h-full w-full">
+            <form onSubmit={handleGenerate} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             
             <div className="space-y-8">
               <div>

@@ -83,7 +83,7 @@ export default function RoboticsGeneratorCard() {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 opacity-20 group-hover:opacity-100 animate-border-glow transition-opacity duration-700" />
         
         <div className="relative bg-[#0A0A0A] rounded-[31px] p-6 md:p-10 h-full w-full">
-          <form onSubmit={handleGenerate} className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <form onSubmit={handleGenerate} className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
           
           <div className="space-y-6">
             <div>
