@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import GlobalGeneratorModal from './GlobalGeneratorModal';
 import HistoryModal from './HistoryModal';
+import { ThemeToggle } from './ThemeToggle';
 import { Clock } from 'lucide-react';
 
 export default function Navbar() {
@@ -56,8 +57,9 @@ export default function Navbar() {
         </nav>
 
         {/* PHASE 3: HEADER CTA REDESIGN */}
-        <motion.button 
-          whileHover={{ scale: 1.05 }}
+        <div className="flex items-center">
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="relative group isolate rounded-full transition-all duration-500"
           onClick={() => setIsModalOpen(true)}
@@ -81,6 +83,8 @@ export default function Navbar() {
         >
           <Clock className="w-5 h-5" />
         </button>
+        <ThemeToggle />
+        </div>
       </div>
       <GlobalGeneratorModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <HistoryModal isOpen={isHistoryOpen} onClose={() => setIsHistoryOpen(false)} />
