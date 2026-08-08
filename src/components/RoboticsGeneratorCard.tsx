@@ -245,9 +245,9 @@ export default function RoboticsGeneratorCard() {
                          <svg className="w-5 h-5 text-[#888888]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
                        </div>
                        <div>
-                         <h4 className="text-white font-medium mb-1 text-sm tracking-wide">Follow the Creator</h4>
-                         <p className="text-[13px] text-[#666666] mb-3 leading-relaxed">Follow Abhijeet Kangane on GitHub to support ongoing development.</p>
-                         <a href="https://github.com/Abhi666-max" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-white text-black px-4 py-2 rounded-md font-semibold text-xs hover:bg-gray-200 transition-colors">Follow on GitHub</a>
+                         <h4 className="text-white font-medium mb-1 text-sm tracking-wide">Open Source</h4>
+                         <p className="text-[13px] text-[#666666] mb-3 leading-relaxed">Star our GitHub repository to support ongoing development.</p>
+                         <a href="https://github.com/Abhi666-max/kse-synopsis-generator" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-white text-black px-4 py-2 rounded-md font-semibold text-xs hover:bg-gray-200 transition-colors">Star on GitHub</a>
                        </div>
                      </div>
                    </div>
