@@ -13,8 +13,15 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "KSE Synopsis",
-  description: "Automate your technical seminar submission with our AI in seconds.",
+  title: "KSE Synopsis Generator",
+  description: "Automate your university synopses, project reports, and official submissions with our AI in seconds.",
+  openGraph: {
+    title: "KSE Synopsis Generator",
+    description: "Automate your university synopses, project reports, and official submissions with our AI in seconds.",
+    url: "https://kse-synopsis-generator.vercel.app/",
+    siteName: "KSE Synopsis Generator",
+    type: "website",
+  },
   icons: {
     icon: '/icon.png',
     apple: '/icon.png',

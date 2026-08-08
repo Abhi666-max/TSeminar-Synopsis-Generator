@@ -2,7 +2,7 @@
   <img src="./public/logo.png" alt="KSE Synopsis Generator" width="120" />
   <h1>KSE Synopsis Generator</h1>
   <p>
-    <strong>Automated Technical Seminar & Robotics Synopsis Generator</strong>
+    <strong>Automated University Synopsis & Report Generator</strong>
   </p>
   <p>
     <a href="https://github.com/Abhi666-max/kse-synopsis-generator"><img src="https://img.shields.io/badge/Open%20Source-Yes-brightgreen?style=for-the-badge" alt="Open Source"></a>
@@ -16,18 +16,17 @@
 
 ## Overview
 
-KSE Synopsis Generator is a web app built to save engineering students hours of formatting work. Instead of struggling with Word documents and margins, this tool takes your project title or an uploaded research paper, extracts the necessary data using Groq's fast LLM API, and outputs a perfectly formatted PDF that matches the exact submission guidelines of the university.
+KSE Synopsis Generator is a scalable web app built to save engineering students hours of formatting work. Instead of struggling with Word documents and strict margins, this tool takes your project title or an uploaded document, extracts the necessary data using Groq's fast LLM API, and outputs a perfectly formatted PDF that matches the exact submission guidelines of the university.
 
-I built this to handle two main formats:
-1. **Technical Seminars** (Individual 2-page format)
-2. **Robotics & Automation** (Group 3-member format)
+Built with an extensible architecture, it supports various university formats (both individual and group submissions) and can be easily customized to generate synopses for new subjects and domains.
 
 ## Features
 
-- **Upload & Extract:** Upload a research paper (PDF), and the app will automatically read it, understand it, and extract the Problem Statement, Objectives, Methodology, etc.
-- **Generate from Title:** Don't have a paper yet? Just type your project title. The app will generate realistic placeholder content that fits the academic format perfectly.
-- **Official Formatting:** Uses `pdf-lib` to map the extracted data directly onto the official university PDF templates. The spacing, fonts, and alignment are exactly what the faculty expects.
-- **Security & Limits:** Includes a 10MB file size limit for PDF uploads to keep the server stable.
+- **Dynamic Data Extraction:** Upload a research paper or document (PDF), and the app will automatically read, understand, and extract key information like the Problem Statement, Objectives, and Methodology.
+- **Generate from Title:** Don't have a base paper yet? Just type your project title. The AI will invent realistic, academically appropriate placeholder content that perfectly fits your university's format.
+- **Official & Perfect Formatting:** Uses `pdf-lib` to map the AI-generated data directly onto the official university PDF templates. The spacing, fonts, and alignment are exactly what the faculty expects.
+- **Extensible Architecture:** Designed to easily add new university subject formats (both individual 2-page formats and group 3-member formats).
+- **Security & Performance Limits:** Includes a 10MB file size limit for PDF uploads to keep the server stable, and uses edge-optimized routes for blazing fast generation.
 - **Clean UI:** Simple, dark-mode focused UI built with Tailwind CSS and Framer Motion for smooth transitions.
 
 ## Tech Stack
