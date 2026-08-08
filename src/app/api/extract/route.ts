@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.js';
+import { ratelimit } from '@/lib/ratelimit';
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
@@ -12,6 +13,24 @@ export async function POST(request: Request) {
     const file = formData.get('file') as File | null;
     const titleOnly = formData.get('title') as string | null;
     const subjectType = formData.get('subjectType') as string | null || 'seminar';
+    
+    if (ratelimit) {
+      const ip = request.headers.get("x-forwarded-for") ?? "127.0.0.1";
+      const { success, limit, reset, remaining } = await ratelimit.limit(ip);
+      if (!success) {
+        return NextResponse.json(
+          { error: 'Too many requests! Please wait 1 minute before generating again.' },
+          { 
+            status: 429,
+            headers: {
+              'X-RateLimit-Limit': limit.toString(),
+              'X-RateLimit-Remaining': remaining.toString(),
+              'X-RateLimit-Reset': reset.toString()
+            }
+          }
+        );
+      }
+    }
     
     if (!file && !titleOnly) {
       return NextResponse.json({ error: 'Please provide either a PDF file or a Title' }, { status: 400 });

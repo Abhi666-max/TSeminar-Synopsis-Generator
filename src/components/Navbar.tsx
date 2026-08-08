@@ -5,10 +5,13 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import GlobalGeneratorModal from './GlobalGeneratorModal';
+import HistoryModal from './HistoryModal';
+import { Clock } from 'lucide-react';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -70,8 +73,17 @@ export default function Navbar() {
             </svg>
           </div>
         </motion.button>
+        
+        <button 
+          onClick={() => setIsHistoryOpen(true)}
+          className="p-2 ml-4 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 text-gray-400 hover:text-white transition-all shadow-inner"
+          title="Generation History"
+        >
+          <Clock className="w-5 h-5" />
+        </button>
       </div>
       <GlobalGeneratorModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <HistoryModal isOpen={isHistoryOpen} onClose={() => setIsHistoryOpen(false)} />
     </motion.header>
   );
 }

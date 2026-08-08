@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileUp, Loader2, FileText, CheckCircle2, User, Hash, Briefcase, Users } from 'lucide-react';
 import { generateRoboticsPdf, RoboticsStudentDetails, RoboticsPaperData } from '@/lib/generateRoboticsPdf';
+import { toast } from 'sonner';
+import { useHistoryStore } from '@/store/useHistoryStore';
 
 export default function RoboticsGeneratorCard() {
   const [students, setStudents] = useState<RoboticsStudentDetails[]>([
@@ -16,6 +18,7 @@ export default function RoboticsGeneratorCard() {
   const [status, setStatus] = useState<'idle' | 'uploading' | 'analyzing' | 'generating' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const addHistory = useHistoryStore((state) => state.addHistory);
 
   useEffect(() => {
     if (showSuccessModal) document.body.style.overflow = 'hidden';
@@ -32,6 +35,7 @@ export default function RoboticsGeneratorCard() {
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file && !title) {
+       toast.error('Please upload a PDF or enter a Title');
        setErrorMessage('Please upload a PDF or enter a Title');
        setStatus('error');
        setTimeout(() => setStatus('idle'), 3000);
@@ -59,15 +63,29 @@ export default function RoboticsGeneratorCard() {
       setStatus('generating');
       await generateRoboticsPdf(students, paperData);
       
+      addHistory({
+        type: 'robotics',
+        title: paperData.title,
+        studentNames: students.map(s => s.name).filter(Boolean),
+        paperData,
+        studentData: students,
+      });
+
       setStatus('success');
+      toast.success('Synopsis generated successfully!');
       setTimeout(() => {
         setStatus('idle');
         setShowSuccessModal(true);
       }, 1000);
     } catch (err: unknown) {
       console.error(err);
-      if (err instanceof Error) setErrorMessage(err.message);
-      else setErrorMessage(String(err));
+      if (err instanceof Error) {
+        setErrorMessage(err.message);
+        toast.error(err.message);
+      } else {
+        setErrorMessage(String(err));
+        toast.error(String(err));
+      }
       setStatus('error');
       setTimeout(() => setStatus('idle'), 5000);
     }

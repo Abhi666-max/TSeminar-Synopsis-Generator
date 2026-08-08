@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileUp, Loader2, FileText, CheckCircle2, User, Hash, Briefcase } from 'lucide-react';
 import { generateFinalPdf, StudentDetails, PaperData } from '@/lib/generatePdf';
+import { toast } from 'sonner';
+import { useHistoryStore } from '@/store/useHistoryStore';
 
 export default function GeneratorCard() {
   const [student, setStudent] = useState<StudentDetails>({ rollNo: '', name: '', prn: '' });
@@ -12,6 +14,7 @@ export default function GeneratorCard() {
   const [status, setStatus] = useState<'idle' | 'uploading' | 'analyzing' | 'generating' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const addHistory = useHistoryStore((state) => state.addHistory);
 
   useEffect(() => {
     if (showSuccessModal) {
@@ -27,6 +30,7 @@ export default function GeneratorCard() {
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file && !title) {
+       toast.error('Please upload a PDF or enter a Title');
        setErrorMessage('Please upload a PDF or enter a Title');
        setStatus('error');
        setTimeout(() => setStatus('idle'), 3000);
@@ -59,7 +63,16 @@ export default function GeneratorCard() {
       setStatus('generating');
       await generateFinalPdf(student, paperData);
       
+      addHistory({
+        type: 'seminar',
+        title: paperData.title,
+        studentNames: [student.name],
+        paperData,
+        studentData: student,
+      });
+
       setStatus('success');
+      toast.success('Synopsis generated successfully!');
       setTimeout(() => {
         setStatus('idle');
         setShowSuccessModal(true);
@@ -68,8 +81,10 @@ export default function GeneratorCard() {
       console.error(err);
       if (err instanceof Error) {
         setErrorMessage(err.message);
+        toast.error(err.message);
       } else {
         setErrorMessage(String(err));
+        toast.error(String(err));
       }
       setStatus('error');
       setTimeout(() => setStatus('idle'), 5000);
